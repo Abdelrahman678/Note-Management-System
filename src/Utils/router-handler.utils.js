@@ -2,7 +2,7 @@ import { authController } from "../Modules/index.modules.controller.js";
 import { globalErrorHandlerMiddleware } from "../Middleware/index.middleware.js";
 
 const routerHandler = (app) => {
-    /* == Auth Router == */
+  /* == Auth Router == */
   app.use("/auth", authController);
   /* == Home Router == */
   app.get("/", (req, res) => {
