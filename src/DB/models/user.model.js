@@ -28,11 +28,7 @@ const userSchema = new Schema(
       enum: Object.values(genderEnum),
       default: genderEnum.MALE,
     },
-    profilePic: {
-      secure_url: String,
-      public_id: String,
-      folderId: String,
-    },
+    profilePicture: String,
     forgotPasswordOtp: {
       code: String,
       expiry: Date,
