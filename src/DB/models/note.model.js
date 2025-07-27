@@ -12,7 +12,7 @@ const noteSchema = new Schema(
       type: String,
       required: true,
     },
-    userId: {
+    ownerId: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,

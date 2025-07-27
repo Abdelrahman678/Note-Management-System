@@ -4,7 +4,21 @@ import { generateToken, verifyToken } from "../../../Utils/token.utils.js";
 import { v4 as uuidv4 } from "uuid";
 import { emailEventEmitter } from "../../../Services/send-email.service.js";
 
-/* == signUpService == */
+/**
+ * Handles user registration
+ * @async
+ * @function signUpService
+ * @param {Object} req - Express request object
+ * @param {Object} req.body - Request body containing user data
+ * @param {string} req.body.username - User's username
+ * @param {string} req.body.email - User's email
+ * @param {string} req.body.password - User's password (will be hashed)
+ * @param {number} req.body.age - User's age
+ * @param {string} [req.body.gender] - User's gender (optional)
+ * @param {Object} res - Express response object
+ * @returns {Promise<Object>} Response with success message and created user data
+ * @throws {Object} Error response if email already exists or user creation fails
+ */
 export const signUpService = async (req, res) => {
   /* Destructure req.body */
   const { username, email, password, age, gender } = req.body;
@@ -40,7 +54,18 @@ export const signUpService = async (req, res) => {
   });
 };
 
-/* == signInService == */
+/**
+ * Handles user authentication and generates access/refresh tokens
+ * @async
+ * @function signInService
+ * @param {Object} req - Express request object
+ * @param {Object} req.body - Request body containing login credentials
+ * @param {string} req.body.email - User's email
+ * @param {string} req.body.password - User's password
+ * @param {Object} res - Express response object
+ * @returns {Promise<Object>} Response with access and refresh tokens
+ * @throws {Object} Error response for invalid credentials or user not found
+ */
 export const signInService = async (req, res) => {
   /* destructure request body */
   const { email, password } = req.body;
@@ -83,7 +108,18 @@ export const signInService = async (req, res) => {
   });
 };
 
-/* == signOutService == */
+/**
+ * Handles user sign out by blacklisting the current tokens
+ * @async
+ * @function signOutService
+ * @param {Object} req - Express request object
+ * @param {Object} req.headers - Request headers
+ * @param {string} req.headers.accesstoken - User's current access token
+ * @param {string} req.headers.refreshtoken - User's current refresh token
+ * @param {Object} res - Express response object
+ * @returns {Promise<Object>} Success message on successful sign out
+ * @throws {Object} Error response if tokens are invalid
+ */
 export const signOutService = async (req, res) => {
   /* destructure request headers */
   const { accesstoken, refreshtoken } = req.headers;
@@ -108,7 +144,17 @@ export const signOutService = async (req, res) => {
   });
 };
 
-/* === forgetPassword === */
+/**
+ * Handles forgot password flow by generating and sending OTP to user's email
+ * @async
+ * @function forgotPasswordService
+ * @param {Object} req - Express request object
+ * @param {Object} req.body - Request body
+ * @param {string} req.body.email - User's email address
+ * @param {Object} res - Express response object
+ * @returns {Promise<Object>} Success message if OTP sent successfully
+ * @throws {Object} Error response if user not found or email sending fails
+ */
 export const forgotPasswordService = async (req, res) => {
   /* destructure request body */
   const { email } = req.body;
@@ -154,7 +200,19 @@ export const forgotPasswordService = async (req, res) => {
   });
 };
 
-/* === resetPassword === */
+/**
+ * Handles password reset with OTP verification
+ * @async
+ * @function resetPasswordService
+ * @param {Object} req - Express request object
+ * @param {Object} req.body - Request body
+ * @param {string} req.body.email - User's email
+ * @param {string} req.body.newPassword - New password to set
+ * @param {string} req.body.otp - OTP received via email
+ * @param {Object} res - Express response object
+ * @returns {Promise<Object>} Success message if password reset successful
+ * @throws {Object} Error response for invalid OTP, expired OTP, or user not found
+ */
 export const resetPasswordService = async (req, res) => {
   /* destructure request body */
   const { email, newPassword, otp } = req.body;
@@ -206,7 +264,17 @@ export const resetPasswordService = async (req, res) => {
   });
 };
 
-/* === refresh token === */
+/**
+ * Generates new access token using a valid refresh token
+ * @async
+ * @function refreshTokenService
+ * @param {Object} req - Express request object
+ * @param {Object} req.headers - Request headers
+ * @param {string} req.headers.refreshtoken - Valid refresh token
+ * @param {Object} res - Express response object
+ * @returns {Promise<Object>} New access token
+ * @throws {Object} Error response if refresh token is invalid or expired
+ */
 export const refreshTokenService = async (req, res) => {
   /* get refresh token from headers */
   const { refreshtoken } = req.headers;
