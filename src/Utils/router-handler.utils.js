@@ -2,6 +2,7 @@ import {
   authController,
   userController,
   noteController,
+  aiController,
 } from "../Modules/index.modules.controller.js";
 import { globalErrorHandlerMiddleware } from "../Middleware/index.middleware.js";
 import { rateLimit } from "express-rate-limit";
@@ -20,7 +21,7 @@ const limiter = rateLimit({
 });
 const routerHandler = (app) => {
   /* apply limiter to all routes */
-  //   app.use(limiter);
+  app.use(limiter);
 
   /* == GraphQL Router == */
   app.use("/graphql", createHandler({ schema: mainSchema }));
@@ -30,6 +31,8 @@ const routerHandler = (app) => {
   app.use("/user", userController);
   /* == Note Router == */
   app.use("/note", noteController);
+  /* == AI Router == */
+  app.use("/ai", aiController);
   /* == Home Router == */
   app.get("/", (req, res) => {
     res.status(200).json({

@@ -13,6 +13,10 @@ async function bootStrap() {
   // express app
   const app = express();
   app.use(express.json());
+
+  //* use cors *//
+  // app.use(cors());
+
   /* use helmet to secure the app */
   app.use(helmet());
   // routerHandler
